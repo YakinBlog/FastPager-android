@@ -1,0 +1,22 @@
+package com.yakin.fastpager.simple;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import com.yakin.fastpager.PageContainer;
+
+public class MainActivity extends AppCompatActivity {
+
+    private PageContainer viewPager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        viewPager = (PageContainer) findViewById(R.id.sm_page);
+        viewPager.startPage(Page1.class);
+        viewPager.startPage(Page2.class);
+//        viewPager.setCurrentItem(1);
+    }
+}
