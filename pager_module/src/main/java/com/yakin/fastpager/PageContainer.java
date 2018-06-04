@@ -9,14 +9,34 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yakin.fastpager.animation.NoneTransformer;
+import com.yakin.fastpager.animation.StackTransformer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PageContainer extends ViewPager {
 
-    private final String TAG = PagerAdapter.class.getSimpleName();
+    private final String TAG = PageContainer.class.getSimpleName();
 
-    private int currentPosition = 0;
+    public enum Type {
+        NONE, STACK
+    }
+
+    /**
+     * 设置切换动画
+     *
+     * @param type
+     */
+    public void setType(Type type) {
+        if(Type.STACK.equals(type)) {
+            setPageTransformer(false, new StackTransformer());
+        } else if(Type.NONE.equals(type)) {
+            setPageTransformer(false, new NoneTransformer());
+        }
+    }
+
+    private int oldPosition = 0;
 
     class Adapter extends PagerAdapter {
 
@@ -36,14 +56,15 @@ public class PageContainer extends ViewPager {
         public Object instantiateItem(ViewGroup container, int position) {
             AbstractPage page = list.get(position);
             View view = page.getView(getContext());
-            view.setTag(position);
             container.addView(view);
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
+            AbstractPage page = list.get(position);
+            View view = page.getView(getContext());
+            container.removeView(view);
         }
 
         public void addPage(AbstractPage page) {
@@ -53,19 +74,12 @@ public class PageContainer extends ViewPager {
 
         public void removePage(AbstractPage page) {
             list.remove(page);
-            page.onDestory();
             notifyDataSetChanged();
         }
 
         @Override
         public int getItemPosition(Object object) {
-            int position = (int)((View)object).getTag();
-            Log.d(TAG, "getItemPosition was called, position[" + position + "]");
-            if(currentPosition == position) {
-                return POSITION_NONE;
-            } else {
-                return POSITION_UNCHANGED;
-            }
+            return POSITION_NONE;
         }
     }
 
@@ -76,15 +90,17 @@ public class PageContainer extends ViewPager {
 
         @Override
         public void onPageSelected(final int position) {
-            Log.d(TAG, "onPageSelected was called, [" + currentPosition + "] to [" + position + "]");
+            Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
             postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    AbstractPage page = getAdapter().list.get(currentPosition);
-                    if(PageStyle.Type.TRANSIENT.equals(page.getType())) {
-                        finishPage(page);
+                    if(position == oldPosition -1) {
+                        AbstractPage page = getAdapter().list.get(oldPosition);
+                        if (AbstractPage.Type.TRANSIENT.equals(page.getType())) {
+                            finishPage(page);
+                        }
                     }
-                    currentPosition = position;
+                    oldPosition = position;
                 }
             }, 100); // 避免滑动删除时过快
         }
@@ -126,6 +142,7 @@ public class PageContainer extends ViewPager {
     }
 
     public void finishPage(AbstractPage page) {
+        page.onDestory();
         getAdapter().removePage(page);
     }
 

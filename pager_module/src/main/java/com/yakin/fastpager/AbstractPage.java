@@ -6,18 +6,22 @@ import android.view.View;
 
 public abstract class AbstractPage {
 
-    private PageStyle.Type type = PageStyle.Type.RESIDENT;
+    public enum Type {
+        RESIDENT, TRANSIENT
+    }
+
+    private Type type = Type.RESIDENT;
 
     /**
      * RESIDENT时页面滑出后会自动销毁，默认是RESIDENT
      *
      * @param type
      */
-    public void setType(PageStyle.Type type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public PageStyle.Type getType() {
+    public Type getType() {
         return type;
     }
 
