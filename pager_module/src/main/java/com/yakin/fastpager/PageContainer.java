@@ -55,16 +55,14 @@ public class PageContainer extends ViewPager {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             AbstractPage page = list.get(position);
-            View view = page.getView(getContext());
+            View view = page.getContentView();
             container.addView(view);
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            AbstractPage page = list.get(position);
-            View view = page.getView(getContext());
-            container.removeView(view);
+            container.removeView((View) object);
         }
 
         public void addPage(AbstractPage page) {
@@ -134,8 +132,9 @@ public class PageContainer extends ViewPager {
     public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
         try {
             AbstractPage page = clazz.newInstance();
-            page.onCreate(bundle);
+            page.setContext(getContext());
             getAdapter().addPage(page);
+            page.onCreate(bundle);
         } catch (Exception e) {
             Log.e(TAG, "start page failed:" + e.getLocalizedMessage());
         }
@@ -145,6 +144,23 @@ public class PageContainer extends ViewPager {
         page.onDestory();
         getAdapter().removePage(page);
     }
+
+    public void resumePage() {
+        if(getAdapter().list.size() > 0) {
+            int position = getCurrentItem();
+            AbstractPage page = getAdapter().list.get(position);
+            page.onResume();
+        }
+    }
+
+    public void pausePage() {
+        if(getAdapter().list.size() > 0) {
+            int position = getCurrentItem();
+            AbstractPage page = getAdapter().list.get(position);
+            page.onPause();
+        }
+    }
+
 
     @Override
     protected void onDetachedFromWindow() {

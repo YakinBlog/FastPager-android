@@ -6,6 +6,25 @@ import android.view.View;
 
 public abstract class AbstractPage {
 
+    private Context context;
+    private View view;
+
+    public final void setContext(Context context) {
+        this.context = context;
+    }
+
+    public final Context getContext() {
+        return context;
+    }
+
+    public final void setContentView(View view) {
+        this.view = view;
+    }
+
+    public final View getContentView() {
+        return view;
+    }
+
     public enum Type {
         RESIDENT, TRANSIENT
     }
@@ -17,7 +36,7 @@ public abstract class AbstractPage {
      *
      * @param type
      */
-    public void setType(Type type) {
+    public final void setType(Type type) {
         this.type = type;
     }
 
@@ -29,9 +48,15 @@ public abstract class AbstractPage {
         // TODO
     }
 
-    public void onDestory() {
+    public void onResume() {
         // TODO
     }
 
-    public abstract View getView(Context context);
+    public void onPause() {
+        // TODO
+    }
+
+    public void onDestory() {
+        // TODO
+    }
 }
