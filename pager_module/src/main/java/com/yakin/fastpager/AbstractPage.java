@@ -9,7 +9,7 @@ public abstract class AbstractPage {
     private Context context;
     private View view;
 
-    public final void setContext(Context context) {
+    final void setContext(Context context) {
         this.context = context;
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractPage {
         this.type = type;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return type;
     }
 
