@@ -23,4 +23,27 @@ public class MainActivity extends AppCompatActivity {
         viewPager.startPage(Page5.class);
 //        viewPager.setCurrentItem(1);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewPager.resumePage();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewPager.pausePage();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewPager.deatoryPage();
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewPager.backPage();
+    }
 }

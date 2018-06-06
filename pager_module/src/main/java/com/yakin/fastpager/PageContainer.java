@@ -1,5 +1,6 @@
 package com.yakin.fastpager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -13,7 +14,6 @@ import com.yakin.fastpager.animation.NoneTransformer;
 import com.yakin.fastpager.animation.StackTransformer;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PageContainer extends ViewPager {
 
@@ -40,7 +40,7 @@ public class PageContainer extends ViewPager {
 
     class Adapter extends PagerAdapter {
 
-        private List<AbstractPage> list = new ArrayList<>();
+        private ArrayList<AbstractPage> list = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -89,6 +89,8 @@ public class PageContainer extends ViewPager {
         @Override
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
+            getAdapter().list.get(oldPosition).onPause();
+            getAdapter().list.get(position).onResume();
             postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -161,6 +163,24 @@ public class PageContainer extends ViewPager {
         }
     }
 
+    public void backPage() {
+        int position = getCurrentItem();
+        if(position < 1) {
+            Context context = getContext();
+            if(context instanceof Activity) {
+                ((Activity) context).finish();
+            }
+        } else {
+            setCurrentItem(position - 1);
+        }
+    }
+
+    public void deatoryPage() {
+        final ArrayList<AbstractPage> pages = getAdapter().list;
+        for (AbstractPage page: pages) {
+            page.onDestory();
+        }
+    }
 
     @Override
     protected void onDetachedFromWindow() {
