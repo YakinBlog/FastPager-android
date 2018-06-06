@@ -19,19 +19,18 @@ public class PageContainer extends ViewPager {
 
     private final String TAG = PageContainer.class.getSimpleName();
 
-    public enum Type {
-        NONE, STACK
-    }
+    public static final int NONE = 0;
+    public static final int STACK = 0;
 
     /**
      * 设置切换动画
      *
      * @param type
      */
-    public void setType(Type type) {
-        if(Type.STACK.equals(type)) {
+    public void setType(int type) {
+        if(type == STACK) {
             setPageTransformer(false, new StackTransformer());
-        } else if(Type.NONE.equals(type)) {
+        } else if(type == NONE) {
             setPageTransformer(false, new NoneTransformer());
         }
     }
@@ -75,6 +74,10 @@ public class PageContainer extends ViewPager {
             notifyDataSetChanged();
         }
 
+        public AbstractPage getPage(int position) {
+            return list.get(position);
+        }
+
         @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
@@ -89,24 +92,25 @@ public class PageContainer extends ViewPager {
         @Override
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
-            getAdapter().list.get(oldPosition).onPause();
-            getAdapter().list.get(position).onResume();
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(position == oldPosition -1) {
-                        AbstractPage page = getAdapter().list.get(oldPosition);
-                        if (AbstractPage.Type.TRANSIENT.equals(page.getType())) {
-                            finishPage(page);
-                        }
-                    }
-                    oldPosition = position;
-                }
-            }, 100); // 避免滑动删除时过快
+            getAdapter().getPage(oldPosition).onPause();
+            getAdapter().getPage(position).onResume();
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) { }
+        public void onPageScrollStateChanged(int state) {
+            Log.d(TAG,"onPageScrollStateChanged was called, [" + state + "]");
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                int position = getCurrentItem();
+                Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
+                if(position == oldPosition - 1) {
+                    AbstractPage page = getAdapter().getPage(oldPosition);
+                    if (page.getType() != AbstractPage.RESIDENT) {
+                        finishPage(page);
+                    }
+                }
+                oldPosition = position;
+            }
+        }
     }
 
     private PageChangeListener listener;
@@ -134,9 +138,10 @@ public class PageContainer extends ViewPager {
     public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
         try {
             AbstractPage page = clazz.newInstance();
-            page.setContext(getContext());
-            getAdapter().addPage(page);
+            page.setPageContainer(this);
             page.onCreate(bundle);
+            getAdapter().addPage(page);
+            setCurrentItem(getAdapter().getCount() - 1);
         } catch (Exception e) {
             Log.e(TAG, "start page failed:" + e.getLocalizedMessage());
         }
@@ -148,17 +153,17 @@ public class PageContainer extends ViewPager {
     }
 
     public void resumePage() {
-        if(getAdapter().list.size() > 0) {
+        if(getAdapter().getCount() > 0) {
             int position = getCurrentItem();
-            AbstractPage page = getAdapter().list.get(position);
+            AbstractPage page = getAdapter().getPage(position);
             page.onResume();
         }
     }
 
     public void pausePage() {
-        if(getAdapter().list.size() > 0) {
+        if(getAdapter().getCount() > 0) {
             int position = getCurrentItem();
-            AbstractPage page = getAdapter().list.get(position);
+            AbstractPage page = getAdapter().getPage(position);
             page.onPause();
         }
     }
@@ -176,15 +181,14 @@ public class PageContainer extends ViewPager {
     }
 
     public void deatoryPage() {
-        final ArrayList<AbstractPage> pages = getAdapter().list;
-        for (AbstractPage page: pages) {
+        for (AbstractPage page: getAdapter().list) {
             page.onDestory();
         }
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        removeOnPageChangeListener(listener);
+        super.removeOnPageChangeListener(listener);
         super.onDetachedFromWindow();
     }
 }

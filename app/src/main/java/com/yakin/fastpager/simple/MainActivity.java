@@ -15,13 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (PageContainer) findViewById(R.id.sm_page);
-        viewPager.setType(PageContainer.Type.STACK);
+        viewPager.setType(PageContainer.STACK);
         viewPager.startPage(Page1.class);
-        viewPager.startPage(Page2.class);
-        viewPager.startPage(Page3.class);
-        viewPager.startPage(Page4.class);
-        viewPager.startPage(Page5.class);
-//        viewPager.setCurrentItem(1);
     }
 
     @Override

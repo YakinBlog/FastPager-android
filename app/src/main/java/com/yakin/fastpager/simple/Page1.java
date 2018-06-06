@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
@@ -22,11 +23,18 @@ public class Page1 extends AbstractPage {
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPage(Page2.class);
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        getContentView().invalidate();
         Log.d(TAG,"onResume was called");
     }
 

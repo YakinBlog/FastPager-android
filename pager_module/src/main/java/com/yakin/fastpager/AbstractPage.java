@@ -6,16 +6,25 @@ import android.view.View;
 
 public abstract class AbstractPage {
 
-    private Context context;
-    private View view;
+    private PageContainer container;
 
-    final void setContext(Context context) {
-        this.context = context;
+    final void setPageContainer(PageContainer container) {
+        this.container = container;
     }
 
     public final Context getContext() {
-        return context;
+        return container.getContext();
     }
+
+    public final void startPage(Class<? extends AbstractPage> clazz) {
+        startPage(clazz, new Bundle());
+    }
+
+    public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
+        container.startPage(clazz, bundle);
+    }
+
+    private View view;
 
     public final void setContentView(View view) {
         this.view = view;
@@ -25,22 +34,21 @@ public abstract class AbstractPage {
         return view;
     }
 
-    public enum Type {
-        RESIDENT, TRANSIENT
-    }
 
-    private Type type = Type.RESIDENT;
+    public static final int RESIDENT = 0;
+    public static final int TRANSIENT = 1;
+    private int type = RESIDENT;
 
     /**
      * RESIDENT时页面滑出后会自动销毁，默认是RESIDENT
      *
      * @param type
      */
-    public final void setType(Type type) {
+    public final void setType(int type) {
         this.type = type;
     }
 
-    public final Type getType() {
+    public final int getType() {
         return type;
     }
 

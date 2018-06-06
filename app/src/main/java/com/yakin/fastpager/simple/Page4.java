@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
@@ -22,6 +23,12 @@ public class Page4 extends AbstractPage {
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPage(Page5.class);
+            }
+        });
     }
 
     @Override
