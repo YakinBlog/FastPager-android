@@ -1,9 +1,10 @@
 package com.yakin.fastpager.animation;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class NoneTransformer implements ViewPager.PageTransformer {
+import com.yakin.fastpager.view.BaseViewPager;
+
+public class NoneTransformer implements BaseViewPager.PageTransformer {
 
     @Override
     public void transformPage(View page, float position) {

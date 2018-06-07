@@ -1,33 +1,32 @@
 package com.yakin.fastpager.animation;
 
-import android.support.v4.view.ViewPager;
-
-import com.yakin.fastpager.PageAnim;
+import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.BaseViewPager;
 
 import java.util.HashMap;
 
 public class PageTransformerMgr {
 
-    private HashMap<PageAnim, ViewPager.PageTransformer> transformMapCache = new HashMap<>();
+    private HashMap<PageTransformType, BaseViewPager.PageTransformer> transformMapCache = new HashMap<>();
 
-    public ViewPager.PageTransformer getTransformer(PageAnim anim) {
-        ViewPager.PageTransformer transformer;
-        if (anim != null) {
-            transformer = transformMapCache.get(anim);
+    public BaseViewPager.PageTransformer getTransformByType(PageTransformType type) {
+        BaseViewPager.PageTransformer transformer;
+        if (type != null) {
+            transformer = transformMapCache.get(type);
             if (transformer == null) {
-                transformer = newTransformerInstanceByType(anim);
-                transformMapCache.put(PageAnim.NONE, transformer);
+                transformer = newTransformerInstanceByType(type);
+                transformMapCache.put(PageTransformType.NONE, transformer);
             }
         } else {
-            transformer = newTransformerInstanceByType(PageAnim.NONE);
-            transformMapCache.put(PageAnim.NONE, transformer);
+            transformer = newTransformerInstanceByType(PageTransformType.NONE);
+            transformMapCache.put(PageTransformType.NONE, transformer);
         }
         return transformer;
     }
 
-    private ViewPager.PageTransformer newTransformerInstanceByType(PageAnim anim) {
-        ViewPager.PageTransformer transformer;
-        switch (anim) {
+    private BaseViewPager.PageTransformer newTransformerInstanceByType(PageTransformType type) {
+        BaseViewPager.PageTransformer transformer;
+        switch (type) {
             case STACK:
                 transformer = new StackTransformer();
                 break;

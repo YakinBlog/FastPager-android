@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.PageState;
+
 public abstract class AbstractPage {
 
     private PageContainer container;
@@ -17,19 +20,29 @@ public abstract class AbstractPage {
     }
 
     public final void startPage(Class<? extends AbstractPage> clazz) {
-        startPage(clazz, new Bundle());
+        container.startPage(clazz);
     }
 
-    public final void startPage(Class<? extends AbstractPage> clazz, PageAnim anim) {
-        startPage(clazz, new Bundle(), anim);
+    public final void startPage(Class<? extends AbstractPage> clazz, PageTransformType type) {
+        container.startPage(clazz, type);
     }
 
     public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
-        startPage(clazz, bundle, PageAnim.NONE);
+        container.startPage(clazz, bundle);
     }
 
-    public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageAnim anim) {
-        container.startPage(clazz, bundle, anim);
+    public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageTransformType type) {
+        container.startPage(clazz, bundle, type);
+    }
+
+    private PageTransformType transformType = PageTransformType.NONE;
+
+    final PageTransformType getPageTransformType() {
+        return transformType;
+    }
+
+    final void setPageTransformType(PageTransformType type) {
+        this.transformType = type;
     }
 
     private View view;

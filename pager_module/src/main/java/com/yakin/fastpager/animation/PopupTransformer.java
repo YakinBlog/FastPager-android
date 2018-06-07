@@ -1,11 +1,11 @@
 package com.yakin.fastpager.animation;
 
 import com.nineoldandroids.view.ViewHelper;
+import com.yakin.fastpager.view.BaseViewPager;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class PopupTransformer implements ViewPager.PageTransformer {
+public class PopupTransformer implements BaseViewPager.PageTransformer {
 
     @Override
     public void transformPage(View page, float position) {

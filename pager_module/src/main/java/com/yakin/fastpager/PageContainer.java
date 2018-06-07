@@ -10,19 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yakin.fastpager.animation.PageTransformerMgr;
+import com.yakin.fastpager.adapter.BasePagerAdapter;
+import com.yakin.fastpager.view.BaseViewPager;
+import com.yakin.fastpager.view.PageState;
+import com.yakin.fastpager.view.PageTransformType;
 
 import java.util.ArrayList;
 
-public class PageContainer extends ViewPager {
+public class PageContainer extends BaseViewPager {
 
     private final String TAG = PageContainer.class.getSimpleName();
 
-    private PageTransformerMgr transformer = new PageTransformerMgr();
-
     private int oldPosition = 0;
 
-    class Adapter extends PagerAdapter {
+    class Adapter extends BasePagerAdapter {
 
         private ArrayList<AbstractPage> list = new ArrayList<>();
 
@@ -70,6 +71,11 @@ public class PageContainer extends ViewPager {
                     return POSITION_UNCHANGED;
             }
             return POSITION_NONE;
+        }
+
+        @Override
+        public PageTransformType getTransformType(int position) {
+            return list.get(position).getPageTransformType();
         }
     }
 
@@ -124,18 +130,18 @@ public class PageContainer extends ViewPager {
         startPage(page, new Bundle());
     }
 
-    public void startPage(Class<? extends AbstractPage> page, PageAnim anim) {
+    public void startPage(Class<? extends AbstractPage> page, PageTransformType anim) {
         startPage(page, new Bundle(), anim);
     }
 
     public void startPage(Class<? extends AbstractPage> page, Bundle bundle) {
-        startPage(page, bundle, PageAnim.NONE);
+        startPage(page, bundle, PageTransformType.NONE);
     }
 
-    public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageAnim anim) {
+    public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageTransformType type) {
         try {
-            setPageTransformer(false, transformer.getTransformer(anim));
             AbstractPage page = clazz.newInstance();
+            page.setPageTransformType(type);
             page.setPageContainer(this);
             page.onCreate(bundle);
             getAdapter().addPage(page);

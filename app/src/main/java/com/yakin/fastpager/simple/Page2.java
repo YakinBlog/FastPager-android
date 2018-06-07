@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.PageAnim;
-import com.yakin.fastpager.PageState;
+import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.PageState;
 
 public class Page2 extends AbstractPage {
 
@@ -29,7 +29,7 @@ public class Page2 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPage(Page3.class, PageAnim.STACK);
+                startPage(Page3.class, PageTransformType.STACK);
             }
         });
     }
