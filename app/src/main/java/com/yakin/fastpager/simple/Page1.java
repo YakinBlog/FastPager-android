@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
+import com.yakin.fastpager.PageAnim;
 
 public class Page1 extends AbstractPage {
 
@@ -26,7 +27,7 @@ public class Page1 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPage(Page2.class);
+                startPage(Page2.class, PageAnim.POPUP);
             }
         });
     }

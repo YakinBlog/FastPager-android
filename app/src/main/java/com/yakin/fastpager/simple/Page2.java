@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
+import com.yakin.fastpager.PageAnim;
+import com.yakin.fastpager.PageState;
 
 public class Page2 extends AbstractPage {
 
@@ -17,7 +19,7 @@ public class Page2 extends AbstractPage {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setType(TRANSIENT);
+        setPageState(PageState.RESIDENT);
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.BLUE);
         textView.setText("Page2");
@@ -27,7 +29,7 @@ public class Page2 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPage(Page3.class);
+                startPage(Page3.class, PageAnim.STACK);
             }
         });
     }

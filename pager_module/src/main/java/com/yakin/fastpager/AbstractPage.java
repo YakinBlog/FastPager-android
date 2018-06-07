@@ -20,8 +20,16 @@ public abstract class AbstractPage {
         startPage(clazz, new Bundle());
     }
 
+    public final void startPage(Class<? extends AbstractPage> clazz, PageAnim anim) {
+        startPage(clazz, new Bundle(), anim);
+    }
+
     public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
-        container.startPage(clazz, bundle);
+        startPage(clazz, bundle, PageAnim.NONE);
+    }
+
+    public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageAnim anim) {
+        container.startPage(clazz, bundle, anim);
     }
 
     private View view;
@@ -34,22 +42,14 @@ public abstract class AbstractPage {
         return view;
     }
 
+    private PageState state = PageState.TRANSIENT;
 
-    public static final int RESIDENT = 0;
-    public static final int TRANSIENT = 1;
-    private int type = RESIDENT;
-
-    /**
-     * RESIDENT时页面滑出后会自动销毁，默认是RESIDENT
-     *
-     * @param type
-     */
-    public final void setType(int type) {
-        this.type = type;
+    public final void setPageState(PageState state) {
+        this.state = state;
     }
 
-    public final int getType() {
-        return type;
+    public final PageState getPageState() {
+        return state;
     }
 
     public void onCreate(Bundle bundle) {

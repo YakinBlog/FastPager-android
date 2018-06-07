@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (PageContainer) findViewById(R.id.sm_page);
-        viewPager.setType(PageContainer.STACK);
         viewPager.startPage(Page1.class);
     }
 

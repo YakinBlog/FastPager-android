@@ -10,8 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yakin.fastpager.animation.NoneTransformer;
-import com.yakin.fastpager.animation.StackTransformer;
+import com.yakin.fastpager.animation.PageTransformerMgr;
 
 import java.util.ArrayList;
 
@@ -19,21 +18,7 @@ public class PageContainer extends ViewPager {
 
     private final String TAG = PageContainer.class.getSimpleName();
 
-    public static final int NONE = 0;
-    public static final int STACK = 0;
-
-    /**
-     * 设置切换动画
-     *
-     * @param type
-     */
-    public void setType(int type) {
-        if(type == STACK) {
-            setPageTransformer(false, new StackTransformer());
-        } else if(type == NONE) {
-            setPageTransformer(false, new NoneTransformer());
-        }
-    }
+    private PageTransformerMgr transformer = new PageTransformerMgr();
 
     private int oldPosition = 0;
 
@@ -53,8 +38,7 @@ public class PageContainer extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            AbstractPage page = list.get(position);
-            View view = page.getContentView();
+            View view = list.get(position).getContentView();
             container.addView(view);
             return view;
         }
@@ -80,6 +64,11 @@ public class PageContainer extends ViewPager {
 
         @Override
         public int getItemPosition(Object object) {
+            for (int i = 0; i < list.size(); i++) {
+                Object obj = list.get(i).getContentView();
+                if (obj == object)
+                    return POSITION_UNCHANGED;
+            }
             return POSITION_NONE;
         }
     }
@@ -104,8 +93,8 @@ public class PageContainer extends ViewPager {
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
                 if(position == oldPosition - 1) {
                     AbstractPage page = getAdapter().getPage(oldPosition);
-                    if (page.getType() != AbstractPage.RESIDENT) {
-                        finishPage(page);
+                    if (page.getPageState() == PageState.TRANSIENT) {
+                        finishPage(getAdapter().getPage(oldPosition));
                     }
                 }
                 oldPosition = position;
@@ -135,8 +124,17 @@ public class PageContainer extends ViewPager {
         startPage(page, new Bundle());
     }
 
-    public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
+    public void startPage(Class<? extends AbstractPage> page, PageAnim anim) {
+        startPage(page, new Bundle(), anim);
+    }
+
+    public void startPage(Class<? extends AbstractPage> page, Bundle bundle) {
+        startPage(page, bundle, PageAnim.NONE);
+    }
+
+    public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageAnim anim) {
         try {
+            setPageTransformer(false, transformer.getTransformer(anim));
             AbstractPage page = clazz.newInstance();
             page.setPageContainer(this);
             page.onCreate(bundle);
