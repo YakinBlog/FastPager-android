@@ -2,6 +2,7 @@ package com.yakin.fastpager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.yakin.fastpager.view.PageTransformType;
@@ -46,6 +47,10 @@ public abstract class AbstractPage {
     }
 
     private View view;
+
+    public final void setContentView(int resID) {
+        this.view = LayoutInflater.from(getContext()).inflate(resID, null);
+    }
 
     public final void setContentView(View view) {
         this.view = view;
