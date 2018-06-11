@@ -60,6 +60,10 @@ public abstract class AbstractPage {
         return view;
     }
 
+    public final View findViewById(int resID) {
+        return view.findViewById(resID);
+    }
+
     private PageState state = PageState.TRANSIENT;
 
     public final void setPageState(PageState state) {
