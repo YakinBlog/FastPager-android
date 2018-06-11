@@ -36,6 +36,10 @@ public abstract class AbstractPage {
         container.startPage(clazz, bundle, type);
     }
 
+    public final void finishPage(AbstractPage page) {
+        container.finishPage(page);
+    }
+
     private PageTransformType transformType = PageTransformType.NONE;
 
     final PageTransformType getPageTransformType() {

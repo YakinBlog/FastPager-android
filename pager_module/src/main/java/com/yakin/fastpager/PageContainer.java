@@ -152,8 +152,17 @@ public class PageContainer extends BaseViewPager {
     }
 
     public void finishPage(AbstractPage page) {
-        page.onDestory();
-        getAdapter().removePage(page);
+        if(getAdapter().list.indexOf(page) > -1) {
+            if(getAdapter().getCount() == 1) {
+                Context context = getContext();
+                if(context instanceof Activity) {
+                    ((Activity) context).finish();
+                }
+            } else {
+                page.onDestory();
+                getAdapter().removePage(page);
+            }
+        }
     }
 
     public void resumePage() {
