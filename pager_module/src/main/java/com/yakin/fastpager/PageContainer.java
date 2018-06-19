@@ -87,7 +87,9 @@ public class PageContainer extends BaseViewPager {
         @Override
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
-            getAdapter().getPage(oldPosition).onPause();
+            if(getAdapter().getCount() > oldPosition) {
+                getAdapter().getPage(oldPosition).onPause();
+            }
             getAdapter().getPage(position).onResume();
         }
 
@@ -97,7 +99,7 @@ public class PageContainer extends BaseViewPager {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 int position = getCurrentItem();
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
-                if(position == oldPosition - 1) {
+                if(position == oldPosition - 1 && getAdapter().getCount() > oldPosition) {
                     AbstractPage page = getAdapter().getPage(oldPosition);
                     if (page.getPageState() == PageState.TRANSIENT) {
                         finishPage(getAdapter().getPage(oldPosition));
@@ -159,6 +161,7 @@ public class PageContainer extends BaseViewPager {
                     ((Activity) context).finish();
                 }
             } else {
+                page.onPause();
                 page.onDestory();
                 getAdapter().removePage(page);
             }
