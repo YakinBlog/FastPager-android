@@ -2,6 +2,7 @@ package com.yakin.fastpager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -154,7 +155,18 @@ public class PageContainer extends BaseViewPager {
         }
     }
 
+    public void resultPage(int code, Intent data) {
+        int size = getAdapter().getCount();
+        if(size >= 1) {
+            getAdapter().list.get(size - 1).onResult(code, data);
+        }
+    }
+
     public void finishPage(AbstractPage page) {
+        finishPage(page, AbstractPage.CODE_NONE, new Intent());
+    }
+
+    public void finishPage(AbstractPage page, int code, Intent data) {
         if(getAdapter().list.indexOf(page) > -1) {
             if(getAdapter().getCount() == 1) {
                 Context context = getContext();
@@ -165,6 +177,7 @@ public class PageContainer extends BaseViewPager {
                 page.onPause();
                 page.onDestory();
                 getAdapter().removePage(page);
+                resultPage(code, data);
             }
         }
     }

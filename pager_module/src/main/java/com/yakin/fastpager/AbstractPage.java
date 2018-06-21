@@ -1,6 +1,7 @@
 package com.yakin.fastpager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import com.yakin.fastpager.view.PageTransformType;
 import com.yakin.fastpager.view.PageState;
 
 public abstract class AbstractPage {
+
+    public static final int CODE_NONE = -1;
 
     private PageContainer container;
 
@@ -36,8 +39,12 @@ public abstract class AbstractPage {
         container.startPage(clazz, bundle, type);
     }
 
-    public final void finishPage(AbstractPage page) {
-        container.finishPage(page);
+    public final void finishPage() {
+        container.finishPage(this);
+    }
+
+    public final void finishPage(int code, Intent data) {
+        container.finishPage(this, code, data);
     }
 
     private PageTransformType transformType = PageTransformType.NONE;
@@ -91,6 +98,10 @@ public abstract class AbstractPage {
     }
 
     public void onDestory() {
+        // TODO
+    }
+
+    public void onResult(int code, Intent data) {
         // TODO
     }
 }

@@ -1,5 +1,6 @@
 package com.yakin.fastpager.simple;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,5 +50,11 @@ public class Page1 extends AbstractPage {
     public void onDestory() {
         super.onDestory();
         Log.d(TAG,"onDestory was called");
+    }
+
+    @Override
+    public void onResult(int code, Intent data) {
+        super.onResult(code, data);
+        Log.d(TAG,"onResult was called, code[" + code+ "]");
     }
 }

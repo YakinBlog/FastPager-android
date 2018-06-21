@@ -29,7 +29,8 @@ public class Page2 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPage(Page3.class, PageTransformType.STACK);
+//                startPage(Page3.class, PageTransformType.STACK);
+                finishPage();
             }
         });
     }
