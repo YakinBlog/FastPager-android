@@ -205,7 +205,7 @@ public class PageContainer extends BaseViewPager {
             if(context instanceof Activity) {
                 ((Activity) context).finish();
             }
-        } else {
+        } else if(!getAdapter().getPage(position).onBack()){
             setCurrentItem(position - 1);
         }
     }

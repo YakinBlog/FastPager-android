@@ -101,6 +101,10 @@ public abstract class AbstractPage {
         // TODO
     }
 
+    public boolean onBack() {
+        return false;
+    }
+
     public void onResult(int code, Intent data) {
         // TODO
     }
