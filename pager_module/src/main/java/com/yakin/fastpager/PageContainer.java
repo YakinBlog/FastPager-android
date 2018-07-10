@@ -90,9 +90,11 @@ public class PageContainer extends BaseViewPager {
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
             if(getAdapter().getCount() > oldPosition) {
-                getAdapter().getPage(oldPosition).onPause();
+                getPage(oldPosition).onPause();
+            } else {
+                oldPosition --;
             }
-            getAdapter().getPage(position).onResume();
+            getPage(position).onResume();
         }
 
         @Override
@@ -102,9 +104,9 @@ public class PageContainer extends BaseViewPager {
                 int position = getCurrentItem();
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
                 if(position == oldPosition - 1 && getAdapter().getCount() > oldPosition) {
-                    AbstractPage page = getAdapter().getPage(oldPosition);
+                    AbstractPage page = getPage(oldPosition);
                     if (page.getPageState() == PageState.TRANSIENT) {
-                        finishPage(getAdapter().getPage(oldPosition));
+                        finishPage(page);
                     }
                 }
                 oldPosition = position;
@@ -167,7 +169,8 @@ public class PageContainer extends BaseViewPager {
     }
 
     public void finishPage(AbstractPage page, int code, Intent data) {
-        if(getAdapter().list.indexOf(page) > -1) {
+        int index = getAdapter().list.indexOf(page);
+        if(index > -1) {
             if(getAdapter().getCount() == 1) {
                 Context context = getContext();
                 if(context instanceof Activity) {
@@ -184,17 +187,13 @@ public class PageContainer extends BaseViewPager {
 
     public void resumePage() {
         if(getAdapter().getCount() > 0) {
-            int position = getCurrentItem();
-            AbstractPage page = getAdapter().getPage(position);
-            page.onResume();
+            getPage().onResume();
         }
     }
 
     public void pausePage() {
         if(getAdapter().getCount() > 0) {
-            int position = getCurrentItem();
-            AbstractPage page = getAdapter().getPage(position);
-            page.onPause();
+            getPage().onPause();
         }
     }
 
@@ -205,7 +204,7 @@ public class PageContainer extends BaseViewPager {
             if(context instanceof Activity) {
                 ((Activity) context).finish();
             }
-        } else if(!getAdapter().getPage(position).onBack()){
+        } else if(!getPage(position).onBack()){
             setCurrentItem(position - 1);
         }
     }
@@ -214,6 +213,14 @@ public class PageContainer extends BaseViewPager {
         for (AbstractPage page: getAdapter().list) {
             page.onDestory();
         }
+    }
+
+    public AbstractPage getPage() {
+        return getPage(getCurrentItem());
+    }
+
+    public AbstractPage getPage(int position) {
+        return getAdapter().getPage(position);
     }
 
     @Override

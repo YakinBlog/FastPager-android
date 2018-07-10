@@ -19,7 +19,7 @@ public class Page2 extends AbstractPage {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.RESIDENT);
+        setPageState(PageState.TRANSIENT);
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.BLUE);
         textView.setText("Page2");
@@ -29,8 +29,7 @@ public class Page2 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startPage(Page3.class, PageTransformType.STACK);
-                finishPage();
+                startPage(Page3.class, PageTransformType.STACK);
             }
         });
     }
