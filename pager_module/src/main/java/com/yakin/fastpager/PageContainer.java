@@ -89,10 +89,10 @@ public class PageContainer extends BaseViewPager {
         @Override
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
-            if(getAdapter().getCount() > oldPosition) {
+            if(getCount() > oldPosition) {
                 getPage(oldPosition).onPause();
             } else {
-                oldPosition --;
+                oldPosition = position;
             }
             getPage(position).onResume();
         }
@@ -103,7 +103,7 @@ public class PageContainer extends BaseViewPager {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 int position = getCurrentItem();
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
-                if(position == oldPosition - 1 && getAdapter().getCount() > oldPosition) {
+                if(position == oldPosition - 1 && getCount() > oldPosition) {
                     AbstractPage page = getPage(oldPosition);
                     if (page.getPageState() == PageState.TRANSIENT) {
                         finishPage(page);
@@ -151,16 +151,16 @@ public class PageContainer extends BaseViewPager {
             page.setPageContainer(this);
             page.onCreate(bundle);
             getAdapter().addPage(page);
-            setCurrentItem(getAdapter().getCount() - 1);
+            setCurrentItem(getCount() - 1);
         } catch (Exception e) {
             Log.e(TAG, "start page failed:" + e.getLocalizedMessage());
         }
     }
 
     public void resultPage(int code, Intent data) {
-        int size = getAdapter().getCount();
-        if(size >= 1) {
-            getAdapter().list.get(size - 1).onResult(code, data);
+        int count = getCount();
+        if(count >= 1) {
+            getPage(count - 1).onResult(code, data);
         }
     }
 
@@ -171,7 +171,7 @@ public class PageContainer extends BaseViewPager {
     public void finishPage(AbstractPage page, int code, Intent data) {
         int index = getAdapter().list.indexOf(page);
         if(index > -1) {
-            if(getAdapter().getCount() == 1) {
+            if(getCount() == 1) {
                 Context context = getContext();
                 if(context instanceof Activity) {
                     ((Activity) context).finish();
@@ -186,13 +186,13 @@ public class PageContainer extends BaseViewPager {
     }
 
     public void resumePage() {
-        if(getAdapter().getCount() > 0) {
+        if(getCount() > 0) {
             getPage().onResume();
         }
     }
 
     public void pausePage() {
-        if(getAdapter().getCount() > 0) {
+        if(getCount() > 0) {
             getPage().onPause();
         }
     }
@@ -213,6 +213,10 @@ public class PageContainer extends BaseViewPager {
         for (AbstractPage page: getAdapter().list) {
             page.onDestory();
         }
+    }
+
+    public int getCount() {
+        return getAdapter().getCount();
     }
 
     public AbstractPage getPage() {
