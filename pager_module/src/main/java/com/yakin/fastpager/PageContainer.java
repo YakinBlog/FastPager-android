@@ -106,7 +106,7 @@ public class PageContainer extends BaseViewPager {
                 if(position == oldPosition - 1 && getCount() > oldPosition) {
                     AbstractPage page = getPage(oldPosition);
                     if (page.getPageState() == PageState.TRANSIENT) {
-                        finishPage(page);
+                        finishPage(page, AbstractPage.CODE_NONE, new Intent(), true);
                     }
                 }
                 oldPosition = position;
@@ -169,6 +169,10 @@ public class PageContainer extends BaseViewPager {
     }
 
     public void finishPage(AbstractPage page, int code, Intent data) {
+        finishPage(page, code, data, false);
+    }
+
+    private void finishPage(AbstractPage page, int code, Intent data, boolean isPaused) {
         int index = getAdapter().list.indexOf(page);
         if(index > -1) {
             if(getCount() == 1) {
@@ -177,7 +181,9 @@ public class PageContainer extends BaseViewPager {
                     ((Activity) context).finish();
                 }
             } else {
-                page.onPause();
+                if(!isPaused) {
+                    page.onPause();
+                }
                 page.onDestory();
                 getAdapter().removePage(page);
                 resultPage(code, data);
