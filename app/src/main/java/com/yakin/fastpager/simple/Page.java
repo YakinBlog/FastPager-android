@@ -1,19 +1,18 @@
 package com.yakin.fastpager.simple;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
+import com.yakin.fastpager.ViewContainer;
 import com.yakin.fastpager.view.PageState;
 import com.yakin.fastpager.view.PageTransformType;
 
-public class Page3 extends AbstractPage {
+public class Page extends AbstractPage {
 
-    private final String TAG = Page3.class.getSimpleName();
+    private final String TAG = Page.class.getSimpleName();
+
+    private ViewContainer container;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -21,18 +20,19 @@ public class Page3 extends AbstractPage {
         Log.d(TAG,"onCreate was called");
         setPageState(PageState.TRANSIENT);
         setPageTransformType(PageTransformType.STACK);
-        TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.LTGRAY);
-        textView.setText("Page3");
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(40);
-        setContentView(textView);
-        textView.setOnClickListener(new View.OnClickListener() {
+
+        setContentView(R.layout.view_main);
+
+        container = (ViewContainer) findViewById(R.id.sm_view);
+
+        container.addView(View1.class);
+        container.addView(View2.class);
+        container.addView(View3.class);
+
+        container.setOnViewChangeListener(new ViewContainer.OnViewChangeListener() {
             @Override
-            public void onClick(View v) {
-//                startPage(Page4.class);
-//                finishPage();
-                startPage(Page.class);
+            public void onViewSelected(int position) {
+                Log.d(TAG,"position = " + position);
             }
         });
     }
@@ -41,17 +41,20 @@ public class Page3 extends AbstractPage {
     public void onResume() {
         super.onResume();
         Log.d(TAG,"onResume was called");
+        container.resumeView();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG,"onPause was called");
+        container.pauseView();
     }
 
     @Override
     public void onDestory() {
         super.onDestory();
         Log.d(TAG,"onDestory was called");
+        container.destroyView();
     }
 }

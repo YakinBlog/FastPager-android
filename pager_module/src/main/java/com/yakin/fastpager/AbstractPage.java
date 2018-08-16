@@ -9,7 +9,7 @@ import android.view.View;
 import com.yakin.fastpager.view.PageTransformType;
 import com.yakin.fastpager.view.PageState;
 
-public abstract class AbstractPage {
+public abstract class AbstractPage extends Page {
 
     public static final int CODE_NONE = -1;
 
@@ -27,16 +27,8 @@ public abstract class AbstractPage {
         container.startPage(clazz);
     }
 
-    public final void startPage(Class<? extends AbstractPage> clazz, PageTransformType type) {
-        container.startPage(clazz, type);
-    }
-
     public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
         container.startPage(clazz, bundle);
-    }
-
-    public final void startPage(Class<? extends AbstractPage> clazz, Bundle bundle, PageTransformType type) {
-        container.startPage(clazz, bundle, type);
     }
 
     public final void finishPage() {
@@ -47,13 +39,13 @@ public abstract class AbstractPage {
         container.finishPage(this, code, data);
     }
 
-    private PageTransformType transformType = PageTransformType.NONE;
+    private PageTransformType transformType = PageTransformType.STACK;
 
-    final PageTransformType getPageTransformType() {
+    public PageTransformType getPageTransformType() {
         return transformType;
     }
 
-    final void setPageTransformType(PageTransformType type) {
+    public void setPageTransformType(PageTransformType type) {
         this.transformType = type;
     }
 
@@ -83,22 +75,6 @@ public abstract class AbstractPage {
 
     public final PageState getPageState() {
         return state;
-    }
-
-    public void onCreate(Bundle bundle) {
-        // TODO
-    }
-
-    public void onResume() {
-        // TODO
-    }
-
-    public void onPause() {
-        // TODO
-    }
-
-    public void onDestory() {
-        // TODO
     }
 
     public boolean onBack() {

@@ -7,32 +7,28 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.view.PageState;
+import com.yakin.fastpager.AbstractView;
 import com.yakin.fastpager.view.PageTransformType;
 
-public class Page3 extends AbstractPage {
+public class View3 extends AbstractView {
 
-    private final String TAG = Page3.class.getSimpleName();
+    private final String TAG = View3.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT);
-        setPageTransformType(PageTransformType.STACK);
+        setPageTransformType(PageTransformType.POPUP);
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.LTGRAY);
-        textView.setText("Page3");
+        textView.setBackgroundColor(Color.GRAY);
+        textView.setText("View3");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startPage(Page4.class);
-//                finishPage();
-                startPage(Page.class);
+
             }
         });
     }
@@ -40,6 +36,7 @@ public class Page3 extends AbstractPage {
     @Override
     public void onResume() {
         super.onResume();
+        getContentView().invalidate();
         Log.d(TAG,"onResume was called");
     }
 

@@ -1,8 +1,6 @@
 package com.yakin.fastpager;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,20 +11,19 @@ import android.view.ViewGroup;
 
 import com.yakin.fastpager.adapter.BasePagerAdapter;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.view.PageState;
 import com.yakin.fastpager.view.PageTransformType;
 
 import java.util.ArrayList;
 
-public class PageContainer extends BaseViewPager {
+public class ViewContainer extends BaseViewPager {
 
-    private final String TAG = PageContainer.class.getSimpleName();
+    private final String TAG = ViewContainer.class.getSimpleName();
 
     private int oldPosition = 0;
 
     class Adapter extends BasePagerAdapter {
 
-        private ArrayList<AbstractPage> list = new ArrayList<>();
+        private ArrayList<AbstractView> list = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -51,17 +48,12 @@ public class PageContainer extends BaseViewPager {
             container.removeView((View) object);
         }
 
-        public void addPage(AbstractPage page) {
+        public void addView(AbstractView page) {
             list.add(page);
             notifyDataSetChanged();
         }
 
-        public void removePage(AbstractPage page) {
-            list.remove(page);
-            notifyDataSetChanged();
-        }
-
-        public AbstractPage getPage(int position) {
+        public AbstractView getView(int position) {
             return list.get(position);
         }
 
@@ -90,11 +82,14 @@ public class PageContainer extends BaseViewPager {
         public void onPageSelected(final int position) {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
             if(getCount() > oldPosition) {
-                getPage(oldPosition).onPause();
+                getView(oldPosition).onPause();
             } else {
                 oldPosition = position;
             }
-            getPage(position).onResume();
+            getView(position).onResume();
+            if(viewListener != null) {
+                viewListener.onViewSelected(position);
+            }
         }
 
         @Override
@@ -103,12 +98,6 @@ public class PageContainer extends BaseViewPager {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 int position = getCurrentItem();
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
-                if(position == oldPosition - 1 && getCount() > oldPosition) {
-                    AbstractPage page = getPage(oldPosition);
-                    if (page.getPageState() == PageState.TRANSIENT) {
-                        finishPage(page, AbstractPage.CODE_NONE, new Intent(), true);
-                    }
-                }
                 oldPosition = position;
             }
         }
@@ -116,7 +105,7 @@ public class PageContainer extends BaseViewPager {
 
     private PageChangeListener listener;
 
-    public PageContainer(Context context, AttributeSet attrs) {
+    public ViewContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
         super.setAdapter(new Adapter());
         super.addOnPageChangeListener(listener = new PageChangeListener());
@@ -132,82 +121,45 @@ public class PageContainer extends BaseViewPager {
         return (Adapter) super.getAdapter();
     }
 
-    public void startPage(Class<? extends AbstractPage> page) {
-        startPage(page, new Bundle());
+    public interface OnViewChangeListener {
+        void onViewSelected(int position);
     }
 
-    public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
+    private OnViewChangeListener viewListener;
+
+    public void setOnViewChangeListener(OnViewChangeListener listener) {
+        this.viewListener = listener;
+    }
+
+    public void addView(Class<? extends AbstractView> page) {
+        addView(page, new Bundle());
+    }
+
+    public void addView(Class<? extends AbstractView> clazz, Bundle bundle) {
         try {
-            AbstractPage page = clazz.newInstance();
-            page.setPageContainer(this);
-            page.onCreate(bundle);
-            getAdapter().addPage(page);
-            setCurrentItem(getCount() - 1);
+            AbstractView view = clazz.newInstance();
+            view.setViewContainer(this);
+            view.onCreate(bundle);
+            getAdapter().addView(view);
         } catch (Exception e) {
             Log.e(TAG, "start page failed:" + e.getLocalizedMessage());
         }
     }
 
-    public void resultPage(int code, Intent data) {
-        int count = getCount();
-        if(count >= 1) {
-            getPage(count - 1).onResult(code, data);
-        }
-    }
-
-    public void finishPage(AbstractPage page) {
-        finishPage(page, AbstractPage.CODE_NONE, new Intent());
-    }
-
-    public void finishPage(AbstractPage page, int code, Intent data) {
-        finishPage(page, code, data, false);
-    }
-
-    private void finishPage(AbstractPage page, int code, Intent data, boolean isPaused) {
-        int index = getAdapter().list.indexOf(page);
-        if(index > -1) {
-            if(getCount() == 1) {
-                Context context = getContext();
-                if(context instanceof Activity) {
-                    ((Activity) context).finish();
-                }
-            } else {
-                if(!isPaused) {
-                    page.onPause();
-                }
-                page.onDestory();
-                getAdapter().removePage(page);
-                resultPage(code, data);
-            }
-        }
-    }
-
-    public void resumePage() {
+    public void resumeView() {
         if(getCount() > 0) {
-            getPage().onResume();
+            getView().onResume();
         }
     }
 
-    public void pausePage() {
+    public void pauseView() {
         if(getCount() > 0) {
-            getPage().onPause();
+            getView().onPause();
         }
     }
 
-    public void backPage() {
-        int position = getCurrentItem();
-        if(position < 1) {
-            Context context = getContext();
-            if(context instanceof Activity) {
-                ((Activity) context).finish();
-            }
-        } else if(!getPage(position).onBack()){
-            setCurrentItem(position - 1);
-        }
-    }
-
-    public void destroyPage() {
-        for (AbstractPage page: getAdapter().list) {
+    public void destroyView() {
+        for (AbstractView page: getAdapter().list) {
             page.onDestory();
         }
     }
@@ -216,12 +168,12 @@ public class PageContainer extends BaseViewPager {
         return getAdapter().getCount();
     }
 
-    public AbstractPage getPage() {
-        return getPage(getCurrentItem());
+    public AbstractView getView() {
+        return getView(getCurrentItem());
     }
 
-    public AbstractPage getPage(int position) {
-        return getAdapter().getPage(position);
+    public AbstractView getView(int position) {
+        return getAdapter().getView(position);
     }
 
     @Override

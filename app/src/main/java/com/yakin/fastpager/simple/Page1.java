@@ -30,7 +30,7 @@ public class Page1 extends AbstractPage {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPage(Page2.class, PageTransformType.POPUP);
+                startPage(Page2.class);
             }
         });
     }
