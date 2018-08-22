@@ -23,7 +23,7 @@ public class Page extends AbstractPage {
 
         setContentView(R.layout.view_main);
 
-        container = (ViewContainer) findViewById(R.id.sm_view);
+        container = findViewById(R.id.sm_view);
 
         container.addView(View1.class);
         container.addView(View2.class);

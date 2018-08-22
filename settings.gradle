@@ -1,1 +1,1 @@
-include ':app', ':pager_module'
+include ':app', ':fastpager-sdk'

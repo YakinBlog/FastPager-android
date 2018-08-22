@@ -42,7 +42,7 @@ public abstract class AbstractView extends LifeCycle {
         return view;
     }
 
-    public final View findViewById(int resID) {
+    public final <T extends View> T findViewById(int resID) {
         return view.findViewById(resID);
     }
 }
