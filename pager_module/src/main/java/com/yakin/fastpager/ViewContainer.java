@@ -38,6 +38,9 @@ public class ViewContainer extends BaseViewPager {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = list.get(position).getContentView();
+            if(container.indexOfChild(view) != -1) {
+                container.removeView(view);
+            }
             view.setClickable(true);
             container.addView(view);
             return view;

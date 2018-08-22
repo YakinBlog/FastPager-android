@@ -20,7 +20,7 @@ public class View1 extends AbstractView {
         Log.d(TAG,"onCreate was called");
         setPageTransformType(PageTransformType.POPUP);
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.GRAY);
+        textView.setBackgroundColor(Color.YELLOW);
         textView.setText("View1");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);

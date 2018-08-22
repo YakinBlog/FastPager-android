@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.yakin.fastpager.view.PageTransformType;
 
-public abstract class AbstractView extends Page {
+public abstract class AbstractView extends LifeCycle {
 
     private ViewContainer container;
 

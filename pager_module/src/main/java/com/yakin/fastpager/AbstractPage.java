@@ -9,7 +9,7 @@ import android.view.View;
 import com.yakin.fastpager.view.PageTransformType;
 import com.yakin.fastpager.view.PageState;
 
-public abstract class AbstractPage extends Page {
+public abstract class AbstractPage extends LifeCycle {
 
     public static final int CODE_NONE = -1;
 

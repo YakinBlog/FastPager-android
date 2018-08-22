@@ -2,7 +2,7 @@ package com.yakin.fastpager;
 
 import android.os.Bundle;
 
-abstract class Page {
+abstract class LifeCycle {
 
     public void onCreate(Bundle bundle) {
         // TODO

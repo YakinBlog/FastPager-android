@@ -20,7 +20,7 @@ public class View2 extends AbstractView {
         Log.d(TAG,"onCreate was called");
         setPageTransformType(PageTransformType.STACK);
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.GRAY);
+        textView.setBackgroundColor(Color.CYAN);
         textView.setText("View2");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
