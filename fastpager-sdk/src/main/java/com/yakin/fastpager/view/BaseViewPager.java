@@ -113,7 +113,7 @@ public abstract class BaseViewPager extends ViewGroup {
         boolean scrolling;
         float widthFactor;
         float offset;
-        PageTransformType type;
+        TransformType type;
     }
 
     private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>(){
@@ -218,7 +218,7 @@ public abstract class BaseViewPager extends ViewGroup {
     private OnPageChangeListener mOnPageChangeListener;
     private OnPageChangeListener mInternalPageChangeListener;
     private OnAdapterChangeListener mAdapterChangeListener;
-//    private PageTransformType mPageTransformer;
+//    private TransformType mPageTransformer;
     private boolean hasTransformer;
     private PageTransformerMgr mTransformer = new PageTransformerMgr();
     private Method mSetChildrenDrawingOrderEnabled;
@@ -315,12 +315,12 @@ public abstract class BaseViewPager extends ViewGroup {
     }
 
     /**
-     * A PageTransformType is invoked whenever a visible/attached page is scrolled.
+     * A TransformType is invoked whenever a visible/attached page is scrolled.
      * This offers an opportunity for the application to apply a custom transformation
      * to the page views using animation properties.
      *
      * <p>As property animation is only supported as of Android 3.0 and forward,
-     * setting a PageTransformType on a ViewPager on earlier platform versions will
+     * setting a TransformType on a ViewPager on earlier platform versions will
      * be ignored.</p>
      */
     public interface PageTransformer {
@@ -687,18 +687,18 @@ public abstract class BaseViewPager extends ViewGroup {
     }
 
 //    /**
-//     * Set a {@link PageTransformType} that will be called for each attached page whenever
+//     * Set a {@link TransformType} that will be called for each attached page whenever
 //     * the scroll position is changed. This allows the application to apply custom property
 //     * transformations to each page, overriding the default sliding look and feel.
 //     *
 //     * <p><em>Note:</em> Prior to Android 3.0 the property animation APIs did not exist.
-//     * As a result, setting a PageTransformType prior to Android 3.0 (API 11) will have no effect.</p>
+//     * As a result, setting a TransformType prior to Android 3.0 (API 11) will have no effect.</p>
 //     *
-//     * @param reverseDrawingOrder true if the supplied PageTransformType requires page views
+//     * @param reverseDrawingOrder true if the supplied TransformType requires page views
 //     *                            to be drawn from last to first instead of first to last.
-//     * @param transformer PageTransformType that will modify each page's animation properties
+//     * @param transformer TransformType that will modify each page's animation properties
 //     */
-//    public void setPageTransformer(boolean reverseDrawingOrder, PageTransformType transformer) {
+//    public void setPageTransformer(boolean reverseDrawingOrder, TransformType transformer) {
 //        if (Build.VERSION.SDK_INT >= 11) {
 //            final boolean hasTransformer = transformer != null;
 //            final boolean needsPopulate = hasTransformer != (mPageTransformer != null);
@@ -1871,8 +1871,8 @@ public abstract class BaseViewPager extends ViewGroup {
             if (lp.isDecor) continue;
 
             if (ii != null && (ii.position >= position && ii.position <= position + 1)) {
-                PageTransformType type = PageTransformType.NONE;
-                if (hasTransformer && ii.type != null && ii.type != PageTransformType.NONE) {
+                TransformType type = TransformType.DEFAULT;
+                if (hasTransformer && ii.type != null && ii.type != TransformType.DEFAULT) {
                     type = ii.type;
                 }
                 final float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();

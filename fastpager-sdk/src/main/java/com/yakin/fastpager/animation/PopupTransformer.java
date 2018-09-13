@@ -16,7 +16,6 @@ public class PopupTransformer implements BaseViewPager.PageTransformer {
         } else if (position <= 0) { // [-1,0]
             ViewHelper.setAlpha(page, 1);
             ViewHelper.setTranslationX(page, -pageWidth * position);
-
         } else if (position <= 1) { // (0,1]
             // Fade the page out.
             ViewHelper.setTranslationX(page, -pageWidth * position);

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.TransformType;
 import com.yakin.fastpager.view.PageState;
 
 public class Page2 extends AbstractPage {
@@ -20,7 +20,7 @@ public class Page2 extends AbstractPage {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
         setPageState(PageState.TRANSIENT);
-        setPageTransformType(PageTransformType.POPUP);
+        setTransformType(TransformType.NONE);
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.BLUE);
         textView.setText("Page2");

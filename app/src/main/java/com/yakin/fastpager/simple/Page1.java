@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.view.PageState;
-import com.yakin.fastpager.view.PageTransformType;
 
 public class Page1 extends AbstractPage {
 

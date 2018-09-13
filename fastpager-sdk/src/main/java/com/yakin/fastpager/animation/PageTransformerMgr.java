@@ -1,30 +1,30 @@
 package com.yakin.fastpager.animation;
 
-import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.TransformType;
 import com.yakin.fastpager.view.BaseViewPager;
 
 import java.util.HashMap;
 
 public class PageTransformerMgr {
 
-    private HashMap<PageTransformType, BaseViewPager.PageTransformer> transformMapCache = new HashMap<>();
+    private HashMap<TransformType, BaseViewPager.PageTransformer> transformMapCache = new HashMap<>();
 
-    public BaseViewPager.PageTransformer getTransformByType(PageTransformType type) {
+    public BaseViewPager.PageTransformer getTransformByType(TransformType type) {
         BaseViewPager.PageTransformer transformer;
         if (type != null) {
             transformer = transformMapCache.get(type);
             if (transformer == null) {
                 transformer = newTransformerInstanceByType(type);
-                transformMapCache.put(PageTransformType.NONE, transformer);
+                transformMapCache.put(TransformType.DEFAULT, transformer);
             }
         } else {
-            transformer = newTransformerInstanceByType(PageTransformType.NONE);
-            transformMapCache.put(PageTransformType.NONE, transformer);
+            transformer = newTransformerInstanceByType(TransformType.DEFAULT);
+            transformMapCache.put(TransformType.DEFAULT, transformer);
         }
         return transformer;
     }
 
-    private BaseViewPager.PageTransformer newTransformerInstanceByType(PageTransformType type) {
+    private BaseViewPager.PageTransformer newTransformerInstanceByType(TransformType type) {
         BaseViewPager.PageTransformer transformer;
         switch (type) {
             case STACK:
@@ -34,7 +34,7 @@ public class PageTransformerMgr {
                 transformer = new PopupTransformer();
                 break;
             default:
-                transformer = new NoneTransformer();
+                transformer = new DefaultTransformer();
                 break;
         }
         return transformer;

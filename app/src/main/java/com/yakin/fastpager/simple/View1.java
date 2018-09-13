@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
-import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.TransformType;
 
 public class View1 extends AbstractView {
 
@@ -18,7 +18,7 @@ public class View1 extends AbstractView {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageTransformType(PageTransformType.POPUP);
+        setTransformType(TransformType.POPUP);
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.YELLOW);
         textView.setText("View1");

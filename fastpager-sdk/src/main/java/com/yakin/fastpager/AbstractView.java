@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.TransformType;
 
 public abstract class AbstractView extends LifeCycle {
 
@@ -18,13 +18,13 @@ public abstract class AbstractView extends LifeCycle {
         return container.getContext();
     }
 
-    private PageTransformType transformType = PageTransformType.NONE;
+    private TransformType transformType;
 
-    public PageTransformType getPageTransformType() {
+    public TransformType getTransformType() {
         return transformType;
     }
 
-    public void setPageTransformType(PageTransformType type) {
+    public void setTransformType(TransformType type) {
         this.transformType = type;
     }
 

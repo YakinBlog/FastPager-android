@@ -10,7 +10,6 @@ public class StackTransformer implements BaseViewPager.PageTransformer {
     @Override
     public void transformPage(View page, float position) {
         int pageWidth = page.getWidth();
-
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
         } else if (position <= 0) { // [-1,0]

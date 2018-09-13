@@ -6,12 +6,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.yakin.fastpager.adapter.BasePagerAdapter;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.view.PageTransformType;
+import com.yakin.fastpager.view.TransformType;
 
 import java.util.ArrayList;
 
@@ -71,8 +72,12 @@ public class ViewContainer extends BaseViewPager {
         }
 
         @Override
-        public PageTransformType getTransformType(int position) {
-            return list.get(position).getPageTransformType();
+        public TransformType getTransformType(int position) {
+            TransformType type = getView(position).getTransformType();
+            if(type == null || type == TransformType.NONE) {
+                return TransformType.DEFAULT;
+            }
+            return type;
         }
     }
 
@@ -112,6 +117,22 @@ public class ViewContainer extends BaseViewPager {
         super(context, attrs);
         super.setAdapter(new Adapter());
         super.addOnPageChangeListener(listener = new PageChangeListener());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if(getView().getTransformType() == TransformType.NONE) {
+            return false;
+        }
+        return super.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(getView().getTransformType() == TransformType.NONE) {
+            return false;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override

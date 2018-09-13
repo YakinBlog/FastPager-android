@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.yakin.fastpager.view.BaseViewPager;
 
-public class NoneTransformer implements BaseViewPager.PageTransformer {
+public class DefaultTransformer implements BaseViewPager.PageTransformer {
 
     @Override
     public void transformPage(View page, float position) {
