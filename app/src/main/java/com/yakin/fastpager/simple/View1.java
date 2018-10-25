@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
+import com.yakin.fastpager.router.PageRouter;
 import com.yakin.fastpager.view.TransformType;
 
 public class View1 extends AbstractView {
@@ -18,17 +19,18 @@ public class View1 extends AbstractView {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.POPUP);
+        setTransformType(TransformType.DEFAULT); // 第一个View的setTransformType无效，可以不用设置
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.YELLOW);
         textView.setText("View1");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PageRouter.getInstance().startPage(Page1.class);
             }
         });
     }

@@ -11,18 +11,18 @@ import com.yakin.fastpager.AbstractView;
 import com.yakin.fastpager.router.PageRouter;
 import com.yakin.fastpager.view.TransformType;
 
-public class View2 extends AbstractView {
+public class View4 extends AbstractView {
 
-    private final String TAG = View2.class.getSimpleName();
+    private final String TAG = View4.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.POPUP); // 滑动切换进出当前页面的动效，弹出弹出
+        setTransformType(TransformType.NONE); // 不允许当前页面左右滑动
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.GREEN);
-        textView.setText("View2");
+        textView.setBackgroundColor(Color.DKGRAY);
+        textView.setText("View4");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
@@ -30,7 +30,7 @@ public class View2 extends AbstractView {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PageRouter.getInstance().startPage(Page2.class);
+                PageRouter.getInstance().startPage(Page4.class);
             }
         });
     }

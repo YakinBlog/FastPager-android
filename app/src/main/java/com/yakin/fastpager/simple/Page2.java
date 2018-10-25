@@ -1,10 +1,8 @@
 package com.yakin.fastpager.simple;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
@@ -19,20 +17,14 @@ public class Page2 extends AbstractPage {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT);
-        setTransformType(TransformType.NONE);
+        setPageState(PageState.TRANSIENT); // 退出后销毁
+        setTransformType(TransformType.STACK); // 层叠进出
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.BLUE);
+        textView.setBackgroundColor(0xff778899);
         textView.setText("Page2");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPage(Page3.class);
-            }
-        });
     }
 
     @Override

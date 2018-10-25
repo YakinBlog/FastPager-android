@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
+import com.yakin.fastpager.router.PageRouter;
 import com.yakin.fastpager.view.TransformType;
 
 public class View3 extends AbstractView {
@@ -18,17 +19,18 @@ public class View3 extends AbstractView {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.POPUP);
+        setTransformType(TransformType.STACK); // 滑动切换进出当前页面的动效，层叠进出
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.DKGRAY);
+        textView.setBackgroundColor(Color.CYAN);
         textView.setText("View3");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PageRouter.getInstance().startPage(Page3.class);
             }
         });
     }
@@ -36,7 +38,6 @@ public class View3 extends AbstractView {
     @Override
     public void onResume() {
         super.onResume();
-        getContentView().invalidate();
         Log.d(TAG,"onResume was called");
     }
 

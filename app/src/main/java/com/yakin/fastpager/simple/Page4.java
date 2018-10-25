@@ -1,28 +1,29 @@
 package com.yakin.fastpager.simple;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.yakin.fastpager.AbstractView;
+import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.router.PageRouter;
+import com.yakin.fastpager.view.PageState;
 import com.yakin.fastpager.view.TransformType;
 
-public class View2 extends AbstractView {
+public class Page4 extends AbstractPage {
 
-    private final String TAG = View2.class.getSimpleName();
+    private final String TAG = Page4.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.POPUP); // 滑动切换进出当前页面的动效，弹出弹出
+        setPageState(PageState.TRANSIENT); // 退出后销毁
+        setTransformType(TransformType.NONE); // 禁止滑动
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.GREEN);
-        textView.setText("View2");
+        textView.setBackgroundColor(0xff778899);
+        textView.setText("Page4");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
@@ -30,7 +31,7 @@ public class View2 extends AbstractView {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PageRouter.getInstance().startPage(Page2.class);
+                PageRouter.getInstance().backPage();
             }
         });
     }

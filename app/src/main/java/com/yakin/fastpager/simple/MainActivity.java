@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.PageContainer;
+import com.yakin.fastpager.router.IPageRouter;
+import com.yakin.fastpager.router.PageRouter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +19,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (PageContainer) findViewById(R.id.sm_page);
-        viewPager.startPage(Page1.class);
+        viewPager.startPage(Page.class);
+
+        // 虽然AbstractPage都有如下方法可以使用，还是建议所有的路由都由统一的管理比较好
+        PageRouter.getInstance().setRouter(new IPageRouter() {
+            @Override
+            public void startPage(Class<? extends AbstractPage> clazz) {
+                viewPager.startPage(clazz);
+            }
+
+            @Override
+            public void startPage(Class<? extends AbstractPage> clazz, Bundle bundle) {
+                viewPager.startPage(clazz, bundle);
+            }
+
+            @Override
+            public void finishPage(AbstractPage page) {
+                viewPager.finishPage(page);
+            }
+
+            @Override
+            public void finishPage(AbstractPage page, int code, Intent data) {
+                viewPager.finishPage(page, code, data);
+            }
+
+            @Override
+            public void backPage() {
+                viewPager.backPage();
+            }
+        });
     }
 
     @Override

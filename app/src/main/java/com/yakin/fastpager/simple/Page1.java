@@ -1,15 +1,14 @@
 package com.yakin.fastpager.simple;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.view.PageState;
+import com.yakin.fastpager.view.TransformType;
 
 public class Page1 extends AbstractPage {
 
@@ -19,25 +18,20 @@ public class Page1 extends AbstractPage {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT);
+        setPageState(PageState.TRANSIENT); // 退出后销毁
+        setTransformType(TransformType.POPUP); // 弹出弹出
+
         TextView textView = new TextView(getContext());
-        textView.setBackgroundColor(Color.GRAY);
+        textView.setBackgroundColor(0xff4169E1);
         textView.setText("Page1");
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(40);
         setContentView(textView);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPage(Page2.class);
-            }
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getContentView().invalidate();
         Log.d(TAG,"onResume was called");
     }
 

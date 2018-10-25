@@ -2,37 +2,56 @@ package com.yakin.fastpager.simple;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.ViewContainer;
 import com.yakin.fastpager.view.PageState;
 import com.yakin.fastpager.view.TransformType;
 
-public class Page extends AbstractPage {
+public class Page extends AbstractPage implements View.OnClickListener {
 
     private final String TAG = Page.class.getSimpleName();
 
     private ViewContainer container;
+    private View tabHome;
+    private View tabChat;
+    private View tabFollow;
+    private View tabProfile;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT);
-        setTransformType(TransformType.STACK);
+        setPageState(PageState.RESIDENT); // 第一个Page的setPageState无效，可以不用设置
+        setTransformType(TransformType.DEFAULT); // 第一个Page的setTransformType无效，可以不用设置
 
         setContentView(R.layout.view_main);
 
         container = findViewById(R.id.sm_view);
+        tabHome = findViewById(R.id.tab_home);
+        tabChat = findViewById(R.id.tab_chat);
+        tabFollow = findViewById(R.id.tab_follow);
+        tabProfile = findViewById(R.id.tab_profile);
 
         container.addView(View1.class);
-        container.addView(View2.class);
-        container.addView(View3.class);
+        container.addView(View2.class); // 层叠切换
+        container.addView(View3.class); // 渐变切换
+        container.addView(View4.class); // 禁止滑动
+        tabHome.setSelected(true); // 默认显示第一页
 
+        tabHome.setOnClickListener(this);
+        tabChat.setOnClickListener(this);
+        tabFollow.setOnClickListener(this);
+        tabProfile.setOnClickListener(this);
         container.setOnViewChangeListener(new ViewContainer.OnViewChangeListener() {
             @Override
             public void onViewSelected(int position) {
                 Log.d(TAG,"position = " + position);
+                tabHome.setSelected(position == 0);
+                tabChat.setSelected(position == 1);
+                tabFollow.setSelected(position == 2);
+                tabProfile.setSelected(position == 3);
             }
         });
     }
@@ -56,5 +75,18 @@ public class Page extends AbstractPage {
         super.onDestory();
         Log.d(TAG,"onDestory was called");
         container.destroyView();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == tabHome) {
+            container.setCurrentItem(0);
+        } else if(v == tabChat) {
+            container.setCurrentItem(1);
+        } else if(v == tabFollow) {
+            container.setCurrentItem(2);
+        } else if(v == tabProfile) {
+            container.setCurrentItem(3);
+        }
     }
 }
