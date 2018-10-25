@@ -22,5 +22,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${android_supportLibVersion}"
 
-    implementation project(':fastpager-sdk')
+//    implementation project(':fastpager-sdk')
+    implementation "com.yakin.support:fastpager:0.0.1"
 }

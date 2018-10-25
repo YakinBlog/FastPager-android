@@ -80,8 +80,6 @@ import java.util.List;
  * with {@link android.app.ActionBar} tabs.  You can find other examples of using
  * ViewPager in the API 4+ Support Demos and API 13+ Support Demos sample code.
  *
- * {@sample development/samples/Support13Demos/src/com/example/android/supportv13/app/ActionBarTabsPager.java
- *      complete}
  */
 public abstract class BaseViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
@@ -717,6 +715,9 @@ public abstract class BaseViewPager extends ViewGroup {
      * Set a {@link PageTransformer} that will be called for each attached page whenever
      * the scroll position is changed. This allows the application to apply custom property
      * transformations to each page, overriding the default sliding look and feel.
+     *
+     * @param isEnable
+     * @param isReverse
      */
     public void setPageTransformer(boolean isEnable, boolean isReverse) {
         setChildrenDrawingOrderEnabledCompat(isEnable);
