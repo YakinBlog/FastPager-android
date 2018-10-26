@@ -34,8 +34,8 @@ public class Page extends AbstractPage implements View.OnClickListener {
         tabProfile = findViewById(R.id.tab_profile);
 
         container.addView(View1.class);
-        container.addView(View2.class); // 层叠切换
-        container.addView(View3.class); // 渐变切换
+        container.addView(View2.class); // 弹出切换
+        container.addView(View3.class); // 层叠切换
         container.addView(View4.class); // 禁止滑动
         tabHome.setSelected(true); // 默认显示第一页
 
