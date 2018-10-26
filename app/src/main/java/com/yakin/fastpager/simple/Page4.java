@@ -8,8 +8,7 @@ import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.view.PageState;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 public class Page4 extends AbstractPage {
 

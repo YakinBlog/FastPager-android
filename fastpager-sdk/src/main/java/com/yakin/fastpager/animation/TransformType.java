@@ -1,4 +1,4 @@
-package com.yakin.fastpager.view;
+package com.yakin.fastpager.animation;
 
 /**
  * 滑入当前页面的动效

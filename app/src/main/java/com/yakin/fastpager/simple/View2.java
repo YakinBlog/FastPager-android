@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 public class View2 extends AbstractView {
 

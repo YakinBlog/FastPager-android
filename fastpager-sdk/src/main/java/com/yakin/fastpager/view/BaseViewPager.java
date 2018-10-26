@@ -45,7 +45,8 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.yakin.fastpager.adapter.BasePagerAdapter;
-import com.yakin.fastpager.animation.PageTransformerMgr;
+import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.animation.TransformerMgr;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -163,6 +164,7 @@ public abstract class BaseViewPager extends ViewGroup {
 
     private boolean mPopulatePending;
     private int mOffscreenPageLimit = DEFAULT_OFFSCREEN_PAGES;
+    private boolean isSmoothScroll;
 
     private boolean mIsBeingDragged;
     private boolean mIsUnableToDrag;
@@ -218,7 +220,7 @@ public abstract class BaseViewPager extends ViewGroup {
     private OnAdapterChangeListener mAdapterChangeListener;
 //    private TransformType mPageTransformer;
     private boolean hasTransformer;
-    private PageTransformerMgr mTransformer = new PageTransformerMgr();
+    private TransformerMgr mTransformer = new TransformerMgr();
     private Method mSetChildrenDrawingOrderEnabled;
 
     private static final int DRAW_ORDER_DEFAULT = 0;
@@ -564,6 +566,10 @@ public abstract class BaseViewPager extends ViewGroup {
         return mCurItem;
     }
 
+    public boolean isSmoothScroll() {
+        return isSmoothScroll;
+    }
+
     void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
         setCurrentItemInternal(item, smoothScroll, always, 0);
     }
@@ -610,6 +616,7 @@ public abstract class BaseViewPager extends ViewGroup {
 
     private void scrollToItem(int item, boolean smoothScroll, int velocity,
                               boolean dispatchSelected) {
+        isSmoothScroll = smoothScroll;
         final ItemInfo curInfo = infoForPosition(item);
         int destX = 0;
         if (curInfo != null) {

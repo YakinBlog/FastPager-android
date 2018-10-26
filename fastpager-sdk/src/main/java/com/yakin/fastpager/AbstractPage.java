@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.yakin.fastpager.view.TransformType;
-import com.yakin.fastpager.view.PageState;
+import com.yakin.fastpager.animation.TransformType;
 
 public abstract class AbstractPage extends LifeCycle {
+
+    public enum PageState {
+        TRANSIENT, // 退出后销毁
+        RESIDENT // 退出后不销毁
+    }
 
     public static final int CODE_NONE = -1;
 

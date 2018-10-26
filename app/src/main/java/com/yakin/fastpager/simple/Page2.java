@@ -6,8 +6,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.view.TransformType;
-import com.yakin.fastpager.view.PageState;
+import com.yakin.fastpager.animation.TransformType;
 
 public class Page2 extends AbstractPage {
 

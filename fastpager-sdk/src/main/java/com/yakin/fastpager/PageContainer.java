@@ -8,15 +8,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.yakin.fastpager.adapter.BasePagerAdapter;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.view.PageState;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 import java.util.ArrayList;
 
@@ -114,7 +112,7 @@ public class PageContainer extends BaseViewPager {
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
                 if(position == oldPosition - 1 && getCount() > oldPosition) {
                     AbstractPage page = getPage(oldPosition);
-                    if (page.getPageState() == PageState.TRANSIENT) {
+                    if (page.getPageState() == AbstractPage.PageState.TRANSIENT) {
                         finishPage(page, AbstractPage.CODE_NONE, new Intent(), true);
                     }
                 }

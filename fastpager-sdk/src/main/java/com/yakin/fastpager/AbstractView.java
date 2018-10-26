@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 public abstract class AbstractView extends LifeCycle {
 

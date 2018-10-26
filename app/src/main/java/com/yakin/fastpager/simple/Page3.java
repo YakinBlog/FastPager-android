@@ -8,8 +8,7 @@ import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.view.PageState;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 public class Page3 extends AbstractPage {
 
@@ -28,12 +27,12 @@ public class Page3 extends AbstractPage {
         textView.setTextSize(40);
         setContentView(textView);
 
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PageRouter.getInstance().finishPage(Page3.this);
-//            }
-//        });
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PageRouter.getInstance().finishPage(Page3.this);
+            }
+        });
     }
 
     @Override

@@ -6,8 +6,7 @@ import android.view.View;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.ViewContainer;
-import com.yakin.fastpager.view.PageState;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 public class Page extends AbstractPage implements View.OnClickListener {
 
@@ -80,13 +79,13 @@ public class Page extends AbstractPage implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == tabHome) {
-            container.setCurrentItem(0);
+            container.setCurrentItem(0, false);
         } else if(v == tabChat) {
-            container.setCurrentItem(1);
+            container.setCurrentItem(1, false);
         } else if(v == tabFollow) {
-            container.setCurrentItem(2);
+            container.setCurrentItem(2, false);
         } else if(v == tabProfile) {
-            container.setCurrentItem(3);
+            container.setCurrentItem(3, false);
         }
     }
 }

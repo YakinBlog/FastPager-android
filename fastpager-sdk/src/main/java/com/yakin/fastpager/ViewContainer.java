@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.yakin.fastpager.adapter.BasePagerAdapter;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.view.TransformType;
+import com.yakin.fastpager.animation.TransformType;
 
 import java.util.ArrayList;
 
@@ -91,6 +91,9 @@ public class ViewContainer extends BaseViewPager {
             Log.d(TAG, "onPageSelected was called, [" + oldPosition + "] to [" + position + "]");
             if(getCount() > oldPosition) {
                 getView(oldPosition).onPause();
+                if(!isSmoothScroll()) { // setCurrentItem关闭平滑切换时不会执行onPageScrollStateChanged
+                    oldPosition = position;
+                }
             } else {
                 oldPosition = position;
             }

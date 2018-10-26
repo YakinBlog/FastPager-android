@@ -1,11 +1,10 @@
 package com.yakin.fastpager.animation;
 
-import com.yakin.fastpager.view.TransformType;
 import com.yakin.fastpager.view.BaseViewPager;
 
 import java.util.HashMap;
 
-public class PageTransformerMgr {
+public class TransformerMgr {
 
     private HashMap<TransformType, BaseViewPager.PageTransformer> transformMapCache = new HashMap<>();
 
