@@ -121,12 +121,10 @@ public class PageContainer extends BaseViewPager {
         }
     }
 
-    private PageChangeListener listener;
-
     public PageContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
         super.setAdapter(new Adapter());
-        super.addOnPageChangeListener(listener = new PageChangeListener());
+        super.addOnPageChangeListener(new PageChangeListener());
     }
 
     @Override
@@ -245,11 +243,5 @@ public class PageContainer extends BaseViewPager {
 
     public AbstractPage getPage(int position) {
         return getAdapter().getPage(position);
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.removeOnPageChangeListener(listener);
-        super.onDetachedFromWindow();
     }
 }
