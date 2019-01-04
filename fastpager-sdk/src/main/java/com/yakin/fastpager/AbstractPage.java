@@ -6,18 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.animation.BaseTransformer;
+import com.yakin.fastpager.animation.PageTransformer;
 
 public abstract class AbstractPage extends LifeCycle {
 
-    public enum PageState {
-        TRANSIENT, // 退出后销毁
-        RESIDENT // 退出后不销毁
-    }
-
-    public static final int CODE_NONE = -1;
+    public static final int RESULT_CODE_NONE = -1;
 
     private PageContainer container;
+    private View view;
 
     final void setPageContainer(PageContainer container) {
         this.container = container;
@@ -43,17 +40,9 @@ public abstract class AbstractPage extends LifeCycle {
         container.finishPage(this, code, data);
     }
 
-    private TransformType transformType;
-
-    public TransformType getTransformType() {
-        return transformType;
+    public BaseTransformer getTransformer() {
+        return new PageTransformer();
     }
-
-    public void setTransformType(TransformType type) {
-        this.transformType = type;
-    }
-
-    private View view;
 
     public final void setContentView(int resID) {
         this.view = LayoutInflater.from(getContext()).inflate(resID, null);
@@ -69,16 +58,6 @@ public abstract class AbstractPage extends LifeCycle {
 
     public final <T extends View> T findViewById(int resID) {
         return view.findViewById(resID);
-    }
-
-    private PageState state = PageState.TRANSIENT;
-
-    public final void setPageState(PageState state) {
-        this.state = state;
-    }
-
-    public final PageState getPageState() {
-        return state;
     }
 
     public boolean onBack() {

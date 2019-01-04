@@ -10,9 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yakin.fastpager.adapter.BasePagerAdapter;
+import com.yakin.fastpager.adapter.BaseViewAdapter;
+import com.yakin.fastpager.animation.BaseTransformer;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.animation.TransformType;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class ViewContainer extends BaseViewPager {
 
     private int oldPosition = 0;
 
-    class Adapter extends BasePagerAdapter {
+    class Adapter extends BaseViewAdapter {
 
         private ArrayList<AbstractView> list = new ArrayList<>();
 
@@ -72,12 +72,11 @@ public class ViewContainer extends BaseViewPager {
         }
 
         @Override
-        public TransformType getTransformType(int position) {
-            TransformType type = getView(position).getTransformType();
-            if(type == null || type == TransformType.NONE) {
-                return TransformType.DEFAULT;
+        public BaseTransformer getTransformer(int position) {
+            if(position == 0 && getCount() > 1) { // 第一个item动效需要和第二个一致，否则第三个切换时会把第一个露出
+                return getView(position + 1).getTransformer();
             }
-            return type;
+            return getView(position).getTransformer();
         }
     }
 
@@ -122,7 +121,7 @@ public class ViewContainer extends BaseViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if(getView().getTransformType() == TransformType.NONE) {
+        if(getView().getTransformer() == null) {
             return false;
         }
         return super.onTouchEvent(ev);
@@ -130,7 +129,7 @@ public class ViewContainer extends BaseViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if(getView().getTransformType() == TransformType.NONE) {
+        if(getView().getTransformer() == null) {
             return false;
         }
         return super.onInterceptTouchEvent(ev);

@@ -12,9 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yakin.fastpager.adapter.BasePagerAdapter;
+import com.yakin.fastpager.adapter.BaseViewAdapter;
 import com.yakin.fastpager.view.BaseViewPager;
-import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.animation.BaseTransformer;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class PageContainer extends BaseViewPager {
 
     private int oldPosition = 0;
 
-    class Adapter extends BasePagerAdapter {
+    class Adapter extends BaseViewAdapter {
 
         private ArrayList<AbstractPage> list = new ArrayList<>();
 
@@ -79,12 +79,8 @@ public class PageContainer extends BaseViewPager {
         }
 
         @Override
-        public TransformType getTransformType(int position) {
-            TransformType type = getPage(position).getTransformType();
-            if(type == null || type == TransformType.NONE) {
-                return TransformType.STACK;
-            }
-            return type;
+        public BaseTransformer getTransformer(int position) {
+            return getPage(position).getTransformer();
         }
     }
 
@@ -112,9 +108,7 @@ public class PageContainer extends BaseViewPager {
                 Log.d(TAG, "[" + oldPosition + "] to [" + position + "]");
                 if(position == oldPosition - 1 && getCount() > oldPosition) {
                     AbstractPage page = getPage(oldPosition);
-                    if (page.getPageState() == AbstractPage.PageState.TRANSIENT) {
-                        finishPage(page, AbstractPage.CODE_NONE, new Intent(), true);
-                    }
+                    finishPage(page, AbstractPage.RESULT_CODE_NONE, new Intent(), true);
                 }
                 oldPosition = position;
             }
@@ -129,7 +123,7 @@ public class PageContainer extends BaseViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if(getPage().getTransformType() == TransformType.NONE) {
+        if(getPage().getTransformer() == null) {
             return false;
         }
         return super.onTouchEvent(ev);
@@ -137,7 +131,7 @@ public class PageContainer extends BaseViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if(getPage().getTransformType() == TransformType.NONE) {
+        if(getPage().getTransformer() == null) {
             return false;
         }
         return super.onInterceptTouchEvent(ev);
@@ -177,7 +171,7 @@ public class PageContainer extends BaseViewPager {
     }
 
     public void finishPage(AbstractPage page) {
-        finishPage(page, AbstractPage.CODE_NONE, new Intent());
+        finishPage(page, AbstractPage.RESULT_CODE_NONE, new Intent());
     }
 
     public void finishPage(AbstractPage page, int code, Intent data) {

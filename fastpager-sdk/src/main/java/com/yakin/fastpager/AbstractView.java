@@ -4,11 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.animation.BaseTransformer;
 
 public abstract class AbstractView extends LifeCycle {
 
     private ViewContainer container;
+    private View view;
 
     final void setViewContainer(ViewContainer container) {
         this.container = container;
@@ -18,17 +19,9 @@ public abstract class AbstractView extends LifeCycle {
         return container.getContext();
     }
 
-    private TransformType transformType;
-
-    public TransformType getTransformType() {
-        return transformType;
+    public BaseTransformer getTransformer() {
+        return new BaseTransformer();
     }
-
-    public void setTransformType(TransformType type) {
-        this.transformType = type;
-    }
-
-    private View view;
 
     public final void setContentView(int resID) {
         this.view = LayoutInflater.from(getContext()).inflate(resID, null);

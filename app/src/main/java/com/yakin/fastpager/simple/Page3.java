@@ -7,19 +7,24 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
+import com.yakin.fastpager.animation.BaseTransformer;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.simple.animation.PopupTransformer;
 
 public class Page3 extends AbstractPage {
 
     private final String TAG = Page3.class.getSimpleName();
 
     @Override
+    public BaseTransformer getTransformer() {
+        return new PopupTransformer();
+    }
+
+    @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT); // 退出后不销毁,需要主动finishPage
-        setTransformType(TransformType.POPUP); // 弹入弹出
+
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(0xff4682B4);
         textView.setText("Page3");

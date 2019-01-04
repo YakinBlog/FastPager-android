@@ -1,12 +1,12 @@
 package com.yakin.fastpager.simple;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.ViewContainer;
-import com.yakin.fastpager.animation.TransformType;
 
 public class Page extends AbstractPage implements View.OnClickListener {
 
@@ -22,8 +22,6 @@ public class Page extends AbstractPage implements View.OnClickListener {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.RESIDENT); // 第一个Page的setPageState无效，可以不用设置
-        setTransformType(TransformType.DEFAULT); // 第一个Page的setTransformType无效，可以不用设置
 
         setContentView(R.layout.view_main);
 
@@ -87,5 +85,11 @@ public class Page extends AbstractPage implements View.OnClickListener {
         } else if(v == tabProfile) {
             container.setCurrentItem(3, false);
         }
+    }
+
+    @Override
+    public void onResult(int code, Intent data) {
+        super.onResult(code, data);
+        Log.d(TAG,"onResult was called, code[" + code + "]");
     }
 }

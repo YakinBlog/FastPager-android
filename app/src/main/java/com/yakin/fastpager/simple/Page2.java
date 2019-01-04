@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.animation.TransformType;
 
 public class Page2 extends AbstractPage {
 
@@ -16,8 +15,7 @@ public class Page2 extends AbstractPage {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT); // 退出后销毁
-        setTransformType(TransformType.STACK); // 层叠进出
+
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(0xff778899);
         textView.setText("Page2");

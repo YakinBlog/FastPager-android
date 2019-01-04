@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.animation.TransformType;
 
 public class View1 extends AbstractView {
 
@@ -19,7 +18,7 @@ public class View1 extends AbstractView {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.DEFAULT); // 第一个View的setTransformType无效，可以不用设置
+
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.YELLOW);
         textView.setText("View1");

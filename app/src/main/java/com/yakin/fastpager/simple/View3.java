@@ -8,18 +8,24 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
+import com.yakin.fastpager.animation.BaseTransformer;
+import com.yakin.fastpager.animation.PageTransformer;
 import com.yakin.fastpager.router.PageRouter;
-import com.yakin.fastpager.animation.TransformType;
 
 public class View3 extends AbstractView {
 
     private final String TAG = View3.class.getSimpleName();
 
     @Override
+    public BaseTransformer getTransformer() {
+        return new PageTransformer();
+    }
+
+    @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setTransformType(TransformType.STACK); // 滑动切换进出当前页面的动效，层叠进出
+
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(Color.CYAN);
         textView.setText("View3");

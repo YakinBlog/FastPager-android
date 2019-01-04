@@ -44,9 +44,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.yakin.fastpager.adapter.BasePagerAdapter;
-import com.yakin.fastpager.animation.TransformType;
-import com.yakin.fastpager.animation.TransformerMgr;
+import com.yakin.fastpager.adapter.BaseViewAdapter;
+import com.yakin.fastpager.animation.BaseTransformer;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -112,7 +111,7 @@ public abstract class BaseViewPager extends ViewGroup {
         boolean scrolling;
         float widthFactor;
         float offset;
-        TransformType type;
+        BaseTransformer transformer;
     }
 
     private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>(){
@@ -220,7 +219,6 @@ public abstract class BaseViewPager extends ViewGroup {
     private OnAdapterChangeListener mAdapterChangeListener;
 //    private TransformType mPageTransformer;
     private boolean hasTransformer;
-    private TransformerMgr mTransformer = new TransformerMgr();
     private Method mSetChildrenDrawingOrderEnabled;
 
     private static final int DRAW_ORDER_DEFAULT = 0;
@@ -966,8 +964,8 @@ public abstract class BaseViewPager extends ViewGroup {
         ii.position = position;
         ii.object = mAdapter.instantiateItem(this, position);
         ii.widthFactor = mAdapter.getPageWidth(position);
-        if(mAdapter instanceof BasePagerAdapter) {
-            ii.type = ((BasePagerAdapter) mAdapter).getTransformType(position);
+        if(mAdapter instanceof BaseViewAdapter) {
+            ii.transformer = ((BaseViewAdapter) mAdapter).getTransformer(position);
         }
         if (index < 0 || index >= mItems.size()) {
             mItems.add(ii);
@@ -1879,12 +1877,12 @@ public abstract class BaseViewPager extends ViewGroup {
             if (lp.isDecor) continue;
 
             if (ii != null && (ii.position >= position && ii.position <= position + 1)) {
-                TransformType type = TransformType.DEFAULT;
-                if (hasTransformer && ii.type != null && ii.type != TransformType.DEFAULT) {
-                    type = ii.type;
+                BaseTransformer transformer = new BaseTransformer();
+                if (hasTransformer && ii.transformer != null) {
+                    transformer = ii.transformer;
                 }
                 final float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();
-                mTransformer.getTransformByType(type).transformPage(child, transformPos);
+                transformer.transformPage(child, transformPos);
             }
         }
     }

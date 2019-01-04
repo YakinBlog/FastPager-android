@@ -23,8 +23,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:support-v4:${android_supportLibVersion}"
-    implementation "com.nineoldandroids:library:2.4.0"
+    api "com.android.support:support-v4:${android_supportLibVersion}"
+    api "com.nineoldandroids:library:2.4.0"
 }
 
 apply from: 'publish_bintray.gradle' // 发布maven

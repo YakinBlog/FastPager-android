@@ -7,18 +7,22 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
-import com.yakin.fastpager.animation.TransformType;
+import com.yakin.fastpager.animation.BaseTransformer;
+import com.yakin.fastpager.simple.animation.PopupTransformer;
 
 public class Page1 extends AbstractPage {
 
     private final String TAG = Page1.class.getSimpleName();
 
     @Override
+    public BaseTransformer getTransformer() {
+        return new PopupTransformer();
+    }
+
+    @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Log.d(TAG,"onCreate was called");
-        setPageState(PageState.TRANSIENT); // 退出后销毁
-        setTransformType(TransformType.POPUP); // 弹出弹出
 
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(0xff4169E1);
@@ -49,6 +53,11 @@ public class Page1 extends AbstractPage {
     @Override
     public void onResult(int code, Intent data) {
         super.onResult(code, data);
-        Log.d(TAG,"onResult was called, code[" + code+ "]");
+        Log.d(TAG,"onResult was called, code[" + code + "]");
+    }
+
+    @Override
+    public boolean onBack() {
+        return true;
     }
 }
