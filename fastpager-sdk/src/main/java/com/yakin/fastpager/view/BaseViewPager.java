@@ -1877,11 +1877,13 @@ public abstract class BaseViewPager extends ViewGroup {
             if (lp.isDecor) continue;
 
             if (ii != null && (ii.position >= position && ii.position <= position + 1)) {
-                BaseTransformer transformer = new BaseTransformer();
+                BaseTransformer transformer;
                 if (hasTransformer && ii.transformer != null) {
                     transformer = ii.transformer;
+                } else {
+                    transformer = new BaseTransformer();
                 }
-                final float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();
+                float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();
                 transformer.transformPage(child, transformPos);
             }
         }
