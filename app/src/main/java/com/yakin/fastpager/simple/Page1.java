@@ -3,12 +3,12 @@ package com.yakin.fastpager.simple;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractPage;
 import com.yakin.fastpager.animation.BaseTransformer;
-import com.yakin.fastpager.simple.animation.PopupTransformer;
+import com.yakin.fastpager.simple.animation.CircleAnimationLayout;
+import com.yakin.fastpager.simple.animation.CircleTransformer;
 
 public class Page1 extends AbstractPage {
 
@@ -16,7 +16,7 @@ public class Page1 extends AbstractPage {
 
     @Override
     public BaseTransformer getTransformer() {
-        return new PopupTransformer();
+        return new CircleTransformer();
     }
 
     @Override
@@ -26,16 +26,23 @@ public class Page1 extends AbstractPage {
 
         TextView textView = new TextView(getContext());
         textView.setBackgroundColor(0xff4169E1);
-        textView.setText("Page1");
-        textView.setGravity(Gravity.CENTER);
+        textView.setText("Page1\n测试内容测试内容测试内容测试内容测试内容测试内容测试内容" +
+                "测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内" +
+                "容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试" +
+                "内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测" +
+                "试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容");
         textView.setTextSize(40);
-        setContentView(textView);
+
+        CircleAnimationLayout layout = new CircleAnimationLayout(getContext());
+        layout.addView(textView);
+        setContentView(layout);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG,"onResume was called");
+
     }
 
     @Override
