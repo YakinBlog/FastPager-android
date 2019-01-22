@@ -27,4 +27,15 @@ dependencies {
     api "com.nineoldandroids:library:2.4.0"
 }
 
-apply from: 'publish_bintray.gradle' // 发布maven
+ext {
+    groupId = 'com.yakin.support'
+    artifactId = 'fastpager'
+    versionName = '0.0.1'
+    describe = 'Faster page framework'
+
+    licenses = [ 'Apache-2.0' ]
+    websiteUrl = 'http://yakinblog.com'
+    vcsUrl = 'https://github.com/YakinBlog/FastPager-android.git'
+    labels = ['android', 'viewpager', 'page framework']
+}
+apply from: 'https://raw.githubusercontent.com/YakinBlog/buildscript/master/publish_bintray.gradle'
