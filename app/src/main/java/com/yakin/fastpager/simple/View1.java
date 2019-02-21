@@ -8,11 +8,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yakin.fastpager.AbstractView;
+import com.yakin.fastpager.animation.BaseTransformer;
 import com.yakin.fastpager.router.PageRouter;
+import com.yakin.fastpager.simple.animation.PopupTransformer;
 
 public class View1 extends AbstractView {
 
     private final String TAG = View1.class.getSimpleName();
+
+    @Override
+    public BaseTransformer getTransformer() {
+        return new PopupTransformer();
+    }
 
     @Override
     public void onCreate(Bundle bundle) {

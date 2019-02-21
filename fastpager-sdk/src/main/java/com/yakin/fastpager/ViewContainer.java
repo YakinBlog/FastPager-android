@@ -73,9 +73,6 @@ public class ViewContainer extends BaseViewPager {
 
         @Override
         public BaseTransformer getTransformer(int position) {
-            if(position == 0 && getCount() > 1) { // 第一个item动效需要和第二个一致，否则第三个切换时会把第一个露出
-                return getView(position + 1).getTransformer();
-            }
             return getView(position).getTransformer();
         }
     }
