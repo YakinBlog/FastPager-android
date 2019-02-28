@@ -1,13 +1,9 @@
 # FastPager-android
 
-``` xml
-<dependency>
-  <groupId>com.yakin.support</groupId>
-  <artifactId>fastpager</artifactId>
-  <version>0.0.1</version>
-  <type>pom</type>
-</dependency>
-```
+|  |  |
+| -------- | ------ |
+| Newest | [![Download](https://api.bintray.com/packages/yakin/maven/com.yakin.support:fastpager/images/download.svg)](https://bintray.com/yakin/maven/com.yakin.support:fastpager/_latestVersion) |
+| Usage | `'com.yakin.support:fastpager:+'` |
 
 ### 0.0.1
 
